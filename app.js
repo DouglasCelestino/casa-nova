@@ -138,6 +138,11 @@ function copyPixKey() {
     const fb = document.getElementById('copy-feedback')
     fb.classList.remove('hidden')
     setTimeout(() => fb.classList.add('hidden'), 2000)
+  }).catch(() => {
+    const fb = document.getElementById('copy-feedback')
+    fb.textContent = 'Use Ctrl+C na chave acima'
+    fb.classList.remove('hidden')
+    setTimeout(() => fb.classList.add('hidden'), 3000)
   })
 }
 
@@ -161,6 +166,8 @@ function subscribeToReservations() {
 }
 
 async function submitReservation() {
+  if (!selectedGiftId) return
+
   const name     = document.getElementById('field-name').value.trim()
   const whatsapp = document.getElementById('field-whatsapp').value.trim()
   const color    = document.getElementById('field-color').value
@@ -228,9 +235,7 @@ function setupEventListeners() {
 
   // Escape key closes modal
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !document.getElementById('modal-overlay').classList.contains('hidden')) {
-      closeModal()
-    }
+    if (e.key === 'Escape' && selectedGiftId !== null) closeModal()
   })
 
   // Color circles
