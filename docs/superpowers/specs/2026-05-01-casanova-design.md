@@ -122,29 +122,22 @@ Seletor de 3 círculos embaixo de cada card de presente. A pessoa escolhe qual c
 
 ## Modelo de dados (Supabase)
 
-### Tabela `presentes`
+A lista de presentes vive **apenas no `config.js`** (junto com as fotos no repo). O Supabase armazena somente as reservas.
 
-| campo | tipo | notas |
-|---|---|---|
-| `id` | uuid | PK, gerado automaticamente |
-| `nome` | text | nome do presente |
-| `descricao` | text | descrição curta |
-| `preco_sugerido` | numeric | ex: 89.90 |
-| `imagem` | text | caminho relativo ex: `assets/presentes/panelas.jpg` |
-| `reservado` | boolean | `false` por padrão |
-
-### Tabela `reservas`
+### Tabela `reservas` (única tabela no Supabase)
 
 | campo | tipo | notas |
 |---|---|---|
 | `id` | uuid | PK |
-| `presente_id` | uuid | FK → `presentes.id` |
+| `presente_id` | text | ID do presente conforme definido no `config.js` |
 | `nome_convidado` | text | |
 | `whatsapp` | text | |
 | `cor_escolhida` | text | "cinza-claro", "inox" ou "off-white" |
-| `reservado_em` | timestamptz | gerado automaticamente |
+| `reservado_em` | timestamptz | gerado automaticamente (`now()`) |
 
-**Trigger no Supabase:** ao inserir em `reservas`, atualiza `presentes.reservado = true` automaticamente.
+**Constraint de unicidade:** `UNIQUE(presente_id)` — impede que dois usuários reservem o mesmo presente, garantindo atomicidade no banco sem necessidade de trigger.
+
+**Como verificar disponibilidade:** ao carregar a página, o app busca todos os `presente_id` já em `reservas` e bloqueia os cards correspondentes. Supabase Realtime notifica todos os visitantes em tempo real quando uma nova reserva é inserida.
 
 ---
 
