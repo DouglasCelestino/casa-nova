@@ -7,6 +7,7 @@
   --color-card-bg:      #FFFFFF;
   --color-border:       #EDE8DF;
   --color-muted:        #9E9689;
+  --color-error:        #c0392b;
 
   --font-cursive: 'Great Vibes', cursive;
   --font-body:    'Lato', sans-serif;
@@ -433,12 +434,13 @@ footer {
   outline: none;
 }
 
-.color-circle:hover    { transform: scale(1.1); }
-.color-circle.selected { box-shadow: 0 0 0 3px var(--color-gold); transform: scale(1.1); }
+.color-circle:hover         { transform: scale(1.1); }
+.color-circle.selected      { box-shadow: 0 0 0 3px var(--color-gold); transform: scale(1.1); }
+.color-circle:focus-visible { box-shadow: 0 0 0 3px var(--color-gold); transform: scale(1.1); }
 
 .form-error {
   font-size: 0.85rem;
-  color: #c0392b;
+  color: var(--color-error);
   margin-bottom: 0.75rem;
 }
 
