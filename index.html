@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova — Douglas & Keila</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <section id="hero">
+    <h1 class="couple-name" id="couple-name"></h1>
+    <p class="event-title">Chá de Casa Nova</p>
+    <div class="event-details">
+      <span id="event-date"></span>
+      <span class="dot">·</span>
+      <span id="event-time"></span>
+    </div>
+    <p class="event-address" id="event-address"></p>
+    <p class="invite-message" id="invite-message"></p>
+  </section>
+
+  <section id="historia">
+    <div class="section-inner two-col">
+      <img src="assets/casal/casal.jpg" alt="Douglas e Keila" class="section-photo"
+        onerror="this.style.display='none'">
+      <p class="section-text" id="historia-text"></p>
+    </div>
+  </section>
+
+  <section id="trocadilho">
+    <div class="section-inner two-col reverse">
+      <p class="trocadilho-text" id="trocadilho-text"></p>
+      <img src="assets/casal/fome.jpg" alt="Douglas faminto" class="section-photo"
+        onerror="this.style.display='none'">
+    </div>
+  </section>
+
+  <section id="programacao">
+    <h2 class="section-title">Programação do Dia</h2>
+    <div class="programacao-grid" id="programacao-grid"></div>
+  </section>
+
+  <section id="presentes">
+    <h2 class="section-title">Lista de Presentes</h2>
+    <p class="section-subtitle">Escolha um presentinho e faça parte desse momento especial</p>
+    <div class="presentes-grid" id="presentes-grid"></div>
+  </section>
+
+  <section id="pix">
+    <h2 class="section-title">Quer contribuir com um Pix?</h2>
+    <p class="section-subtitle">Se preferir, nos presenteie com uma contribuição</p>
+    <div class="pix-container">
+      <div class="qrcode-placeholder">QR Code</div>
+      <div class="pix-info">
+        <p class="pix-label">Telefone</p>
+        <p class="pix-value" id="pix-phone"></p>
+        <p class="pix-label">Chave Pix</p>
+        <p class="pix-value" id="pix-key"></p>
+        <button class="btn-copy" id="btn-copy-pix">Copiar chave</button>
+        <p class="copy-feedback hidden" id="copy-feedback">✓ Copiado!</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <p class="footer-couple" id="footer-couple"></p>
+    <p class="footer-thanks">Com muito amor, aguardamos vocês.</p>
+  </footer>
+
+  <!-- Modal de reserva -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Fechar">×</button>
+      <img class="modal-gift-img" id="modal-gift-img" src="" alt=""
+        onerror="this.style.display='none'">
+      <h3 class="modal-gift-name" id="modal-gift-name"></h3>
+      <p class="modal-gift-price" id="modal-gift-price"></p>
+      <form id="reservation-form" novalidate>
+        <label class="field-label">
+          Seu nome completo
+          <input type="text" id="field-name" required placeholder="Maria da Silva">
+        </label>
+        <label class="field-label">
+          WhatsApp
+          <input type="tel" id="field-whatsapp" required placeholder="(11) 99999-9999">
+        </label>
+        <fieldset class="color-fieldset">
+          <legend>Cor que você vai presentear</legend>
+          <div class="color-options" id="color-options">
+            <button type="button" class="color-circle" data-color="cinza-claro"
+              style="background:#D3D3D3" title="Cinza claro" aria-label="Cinza claro"></button>
+            <button type="button" class="color-circle" data-color="inox"
+              style="background:#8D8D8D" title="Inox" aria-label="Inox"></button>
+            <button type="button" class="color-circle" data-color="off-white"
+              style="background:#FAF8F5;border:1px solid #ccc" title="Off-white" aria-label="Off-white"></button>
+          </div>
+          <input type="hidden" id="field-color">
+        </fieldset>
+        <p class="form-error hidden" id="form-error"></p>
+        <button type="submit" class="btn-primary" id="btn-submit">Confirmar reserva</button>
+      </form>
+      <div class="reservation-success hidden" id="reservation-success">
+        <p class="success-emoji">🏠</p>
+        <p class="success-message" id="success-message"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
