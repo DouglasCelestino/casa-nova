@@ -69,11 +69,18 @@ body {
 }
 
 .event-title {
-  font-size: 0.8rem;
-  letter-spacing: 0.28em;
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-muted);
-  margin-bottom: 1.75rem;
+  color: var(--color-olive);
+  background: rgba(201, 168, 76, 0.14);
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
+  margin: 0.5rem auto 2rem;
 }
 
 .event-details {
@@ -195,9 +202,12 @@ body {
 
 .gift-img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background: var(--color-border);
+  height: 250px;
+  object-fit: contain;
+  object-position: center;
+  background: #F7F3EC;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .gift-img-placeholder {
@@ -481,4 +491,128 @@ footer {
   }
 
   .modal { padding: 1.5rem; }
+}
+
+/* ── Página completa de presentes ───────────────── */
+.page-header {
+  text-align: center;
+  padding: 4rem 1.5rem 3rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--color-olive);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.back-link:hover {
+  color: var(--color-gold);
+}
+
+.ver-mais-wrapper {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.btn-more {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: var(--color-gold);
+  color: white;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.btn-more:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ── Programação com fotos ──────────────────────── */
+.programacao-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+}
+
+.prog-img,
+.prog-img-placeholder {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  background: var(--color-border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.prog-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.prog-content {
+  padding: 1.25rem;
+}
+
+.prog-titulo {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-olive);
+}
+
+.prog-pun {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.qrcode-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  background: var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+
+.gift-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.gift-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.btn-reserve,
+.reserved-badge {
+  margin-top: auto;
+}
+
+.event-address-link {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--color-gold);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.event-address-link:hover {
+  color: var(--color-gold);
+  border-color: var(--color-olive);
 }

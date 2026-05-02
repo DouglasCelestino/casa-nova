@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chá de Casa Nova — Douglas & Keila</title>
+  <title>Lista de Presentes — Douglas & Keila</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -11,52 +11,17 @@
 </head>
 <body>
 
-  <section id="hero">
+  <section class="page-header">
+    <a href="index.html" class="back-link">← Voltar para o convite</a>
     <h1 class="couple-name" id="couple-name"></h1>
-    <p class="event-title">Chá de Casa Nova</p>
-    <div class="event-details">
-      <span id="event-date"></span>
-      <span class="dot">·</span>
-      <span id="event-time"></span>
-    </div>
-    <a class="event-address event-address-link" id="event-address" href="#" target="_blank" rel="noopener noreferrer"></a>
-    <p class="invite-message" id="invite-message"></p>
-  </section>
-
-  <section id="historia">
-    <div class="section-inner two-col">
-      <img src="assets/casal/casal3.jpeg" alt="Douglas e Keila" class="section-photo"
-        onerror="this.style.display='none'">
-      <p class="section-text" id="historia-text"></p>
-    </div>
-  </section>
-
-  <section id="programacao">
-    <h2 class="section-title">Programação do Dia</h2>
-    <div class="programacao-grid" id="programacao-grid"></div>
+    <p class="event-title">Lista completa de presentes</p>
+    <p class="invite-message">Escolha um presentinho e faça parte desse novo capítulo da nossa casa.</p>
   </section>
 
   <section id="presentes">
-    <h2 class="section-title">Lista de Presentes</h2>
-    <p class="section-subtitle">Escolha um presentinho e faça parte desse momento especial</p>
-    <div class="presentes-grid" id="presentes-grid" data-limit="3"></div>
-    <div class="ver-mais-wrapper">
-      <a href="presentes.html" class="btn-more">Ver mais</a>
-    </div>
-  </section>
-
-  <section id="pix">
-    <h2 class="section-title">Quer contribuir com um Pix?</h2>
-    <p class="section-subtitle">Se preferir, nos presenteie com uma contribuição</p>
-    <div class="pix-container">
-      <img class="qrcode-img" src="assets/qr-code.png" alt="QR Code Pix">
-      <div class="pix-info">
-        <p class="pix-label">Chave Pix</p>
-        <p class="pix-value" id="pix-key"></p>
-        <button class="btn-copy" id="btn-copy-pix">Copiar chave</button>
-        <p class="copy-feedback hidden" id="copy-feedback">✓ Copiado!</p>
-      </div>
-    </div>
+    <h2 class="section-title">Todos os Presentes</h2>
+    <p class="section-subtitle">Quando um presente for reservado, ele aparecerá como indisponível para os próximos convidados.</p>
+    <div class="presentes-grid" id="presentes-grid"></div>
   </section>
 
   <footer id="footer">

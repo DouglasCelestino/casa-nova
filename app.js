@@ -1,4 +1,4 @@
-// ── Supabase client (credentials filled in Task 5) ──
+// ── Supabase client ───────────────────────────────
 const supabaseClient = window.supabase.createClient(
   CONFIG.supabase.url,
   CONFIG.supabase.anonKey
@@ -7,38 +7,86 @@ const supabaseClient = window.supabase.createClient(
 // ── State ──────────────────────────────────────────
 const reservedIds    = new Set()
 let   selectedGiftId = null
-let   triggerButton  = null  // for focus restoration on modal close
+let   triggerButton  = null
+
+// ── Helpers de DOM ─────────────────────────────────
+function getEl(id) {
+  return document.getElementById(id)
+}
+
+function setText(id, value) {
+  const el = getEl(id)
+  if (el) el.textContent = value
+}
 
 // ── Render ─────────────────────────────────────────
-
 function renderHero() {
-  document.getElementById('couple-name').textContent    = CONFIG.casal
-  document.getElementById('event-date').textContent     = CONFIG.data
-  document.getElementById('event-time').textContent     = CONFIG.horario
-  document.getElementById('event-address').textContent  = CONFIG.endereco
-  document.getElementById('invite-message').textContent = CONFIG.mensagemConvite
+  const coupleNameEl = document.getElementById('couple-name')
+  const eventDateEl = document.getElementById('event-date')
+  const eventTimeEl = document.getElementById('event-time')
+  const addressEl = document.getElementById('event-address')
+  const inviteMessageEl = document.getElementById('invite-message')
+
+  if (!coupleNameEl || !eventDateEl || !eventTimeEl || !addressEl || !inviteMessageEl) {
+    return
+  }
+
+  coupleNameEl.textContent = CONFIG.casal
+  eventDateEl.textContent = CONFIG.data
+  eventTimeEl.textContent = CONFIG.horario
+
+  addressEl.textContent = CONFIG.endereco
+
+  if (CONFIG.linkEndereco) {
+    addressEl.href = CONFIG.linkEndereco
+  } else {
+    addressEl.removeAttribute('href')
+  }
+
+  inviteMessageEl.textContent = CONFIG.mensagemConvite
 }
 
 function renderHistoria() {
-  document.getElementById('historia-text').textContent = CONFIG.historia
-}
-
-function renderTrocadilho() {
-  document.getElementById('trocadilho-text').textContent = CONFIG.trocadilho
+  setText('historia-text', CONFIG.historia)
 }
 
 function renderProgramacao() {
-  document.getElementById('programacao-grid').innerHTML = CONFIG.programacao.map(item => `
-    <div class="programacao-card">
-      <div class="prog-icone">${item.icone}</div>
-      <p class="prog-titulo">${item.titulo}</p>
-      <p class="prog-pun">${item.pun}</p>
-    </div>
-  `).join('')
+  const grid = document.getElementById('programacao-grid')
+
+  if (!grid) return
+
+  grid.innerHTML = CONFIG.programacao.map(item => {
+    const isVideo = item.imagem && item.imagem.toLowerCase().endsWith('.mp4')
+
+    return `
+      <div class="programacao-card">
+        ${
+          isVideo
+            ? `<video class="prog-img" autoplay muted loop playsinline preload="auto"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <source src="${item.imagem}" type="video/mp4">
+              </video>
+              <div class="prog-img-placeholder" style="display:none">Vídeo não encontrado</div>`
+            : `<img class="prog-img" src="${item.imagem}" alt="${item.titulo}"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="prog-img-placeholder" style="display:none">Imagem não encontrada</div>`
+        }
+        <p class="prog-titulo">${item.titulo}</p>
+      </div>
+    `
+  }).join('')
 }
 
 function renderPresentes() {
-  document.getElementById('presentes-grid').innerHTML = CONFIG.presentes.map(gift => `
+  const grid = getEl('presentes-grid')
+  if (!grid) return
+
+  const limit = Number.parseInt(grid.dataset.limit, 10)
+  const presentes = Number.isFinite(limit)
+    ? CONFIG.presentes.slice(0, limit)
+    : CONFIG.presentes
+
+  grid.innerHTML = presentes.map(gift => `
     <div class="gift-card" id="gift-${gift.id}">
       <img class="gift-img" src="${gift.imagem}" alt="${gift.nome}"
         data-nome="${gift.nome}"
@@ -61,62 +109,64 @@ function renderPresentes() {
 }
 
 function renderPix() {
-  document.getElementById('pix-phone').textContent = CONFIG.pix.telefone
-  document.getElementById('pix-key').textContent   = CONFIG.pix.chave
+  setText('pix-phone', CONFIG.pix.telefone)
+  setText('pix-key', CONFIG.pix.chave)
 }
 
 function renderFooter() {
-  document.getElementById('footer-couple').textContent = CONFIG.casal
+  setText('footer-couple', CONFIG.casal)
 }
 
 // ── Modal ──────────────────────────────────────────
-
 function openModal(gift, fromButton) {
   selectedGiftId = gift.id
   triggerButton  = fromButton
 
-  const img = document.getElementById('modal-gift-img')
-  img.src = gift.imagem
-  img.alt = gift.nome
+  const img = getEl('modal-gift-img')
+  if (img) {
+    img.style.display = 'block'
+    img.src = gift.imagem
+    img.alt = gift.nome
+  }
 
-  document.getElementById('modal-gift-name').textContent  = gift.nome
-  document.getElementById('modal-gift-price').textContent =
-    `Sugestão: R$ ${gift.preco.toFixed(2).replace('.', ',')}`
+  setText('modal-gift-name', gift.nome)
+  setText('modal-gift-price', `Sugestão: R$ ${gift.preco.toFixed(2).replace('.', ',')}`)
 
-  document.getElementById('reservation-form').classList.remove('hidden')
-  document.getElementById('reservation-success').classList.add('hidden')
-  document.getElementById('form-error').classList.add('hidden')
-  document.getElementById('field-name').value     = ''
-  document.getElementById('field-whatsapp').value = ''
-  document.getElementById('field-color').value    = ''
+  getEl('reservation-form')?.classList.remove('hidden')
+  getEl('reservation-success')?.classList.add('hidden')
+  getEl('form-error')?.classList.add('hidden')
+
+  if (getEl('field-name')) getEl('field-name').value = ''
+  if (getEl('field-whatsapp')) getEl('field-whatsapp').value = ''
+  if (getEl('field-color')) getEl('field-color').value = ''
+
   document.querySelectorAll('.color-circle').forEach(c => {
     c.classList.remove('selected')
     c.setAttribute('aria-pressed', 'false')
   })
 
-  const btn = document.getElementById('btn-submit')
-  btn.disabled    = false
-  btn.textContent = 'Confirmar reserva'
+  const btn = getEl('btn-submit')
+  if (btn) {
+    btn.disabled = false
+    btn.textContent = 'Confirmar reserva'
+  }
 
-  document.getElementById('modal-overlay').classList.remove('hidden')
+  getEl('modal-overlay')?.classList.remove('hidden')
   document.body.style.overflow = 'hidden'
 
-  // Move focus to first input for accessibility
-  setTimeout(() => document.getElementById('field-name').focus(), 50)
+  setTimeout(() => getEl('field-name')?.focus(), 50)
 }
 
 function closeModal() {
-  document.getElementById('modal-overlay').classList.add('hidden')
+  getEl('modal-overlay')?.classList.add('hidden')
   document.body.style.overflow = ''
 
-  // Restore focus to the button that opened the modal
   if (triggerButton) triggerButton.focus()
   triggerButton  = null
   selectedGiftId = null
 }
 
 // ── Helpers ────────────────────────────────────────
-
 function maskWhatsApp(value) {
   const d = value.replace(/\D/g, '').slice(0, 11)
   if (d.length <= 2) return `(${d}`
@@ -126,20 +176,22 @@ function maskWhatsApp(value) {
 
 function markGiftAsReserved(giftId) {
   reservedIds.add(giftId)
-  const card = document.getElementById(`gift-${giftId}`)
+  const card = getEl(`gift-${giftId}`)
   if (card) {
     card.classList.add('reserved')
-    card.setAttribute('inert', '')  // blocks both mouse and keyboard
+    card.setAttribute('inert', '')
   }
 }
 
 function copyPixKey() {
   navigator.clipboard.writeText(CONFIG.pix.chave).then(() => {
-    const fb = document.getElementById('copy-feedback')
+    const fb = getEl('copy-feedback')
+    if (!fb) return
     fb.classList.remove('hidden')
     setTimeout(() => fb.classList.add('hidden'), 2000)
   }).catch(() => {
-    const fb = document.getElementById('copy-feedback')
+    const fb = getEl('copy-feedback')
+    if (!fb) return
     fb.textContent = 'Use Ctrl+C na chave acima'
     fb.classList.remove('hidden')
     setTimeout(() => fb.classList.add('hidden'), 3000)
@@ -147,10 +199,12 @@ function copyPixKey() {
 }
 
 // ── Supabase ───────────────────────────────────────
-
 async function loadReservedGifts() {
   const { data, error } = await supabaseClient.from('reservas').select('presente_id')
-  if (error) { console.error('Erro ao carregar reservas:', error); return }
+  if (error) {
+    console.error('Erro ao carregar reservas:', error)
+    return
+  }
   data.forEach(row => markGiftAsReserved(row.presente_id))
 }
 
@@ -168,28 +222,38 @@ function subscribeToReservations() {
 async function submitReservation() {
   if (!selectedGiftId) return
 
-  const name     = document.getElementById('field-name').value.trim()
-  const whatsapp = document.getElementById('field-whatsapp').value.trim()
-  const color    = document.getElementById('field-color').value
-  const errorEl  = document.getElementById('form-error')
+  const nameEl     = getEl('field-name')
+  const whatsappEl = getEl('field-whatsapp')
+  const colorEl    = getEl('field-color')
+  const errorEl    = getEl('form-error')
 
-  errorEl.classList.add('hidden')
+  const name     = nameEl?.value.trim() || ''
+  const whatsapp = whatsappEl?.value.trim() || ''
+  const color    = colorEl?.value || ''
+
+  errorEl?.classList.add('hidden')
 
   if (!name || !whatsapp || !color) {
-    errorEl.textContent = 'Preencha todos os campos, incluindo a cor.'
-    errorEl.classList.remove('hidden')
+    if (errorEl) {
+      errorEl.textContent = 'Preencha todos os campos, incluindo a cor.'
+      errorEl.classList.remove('hidden')
+    }
     return
   }
 
   if (whatsapp.replace(/\D/g, '').length < 10) {
-    errorEl.textContent = 'WhatsApp inválido. Use o formato (11) 99999-9999.'
-    errorEl.classList.remove('hidden')
+    if (errorEl) {
+      errorEl.textContent = 'WhatsApp inválido. Use o formato (11) 99999-9999.'
+      errorEl.classList.remove('hidden')
+    }
     return
   }
 
-  const btn = document.getElementById('btn-submit')
-  btn.disabled    = true
-  btn.textContent = 'Confirmando...'
+  const btn = getEl('btn-submit')
+  if (btn) {
+    btn.disabled = true
+    btn.textContent = 'Confirmando...'
+  }
 
   const { error } = await supabaseClient.from('reservas').insert({
     presente_id:    selectedGiftId,
@@ -198,80 +262,79 @@ async function submitReservation() {
     cor_escolhida:  color,
   })
 
-  btn.disabled    = false
-  btn.textContent = 'Confirmar reserva'
+  if (btn) {
+    btn.disabled = false
+    btn.textContent = 'Confirmar reserva'
+  }
 
   if (error) {
-    errorEl.textContent = error.code === '23505'
-      ? 'Ops! Esse presente acabou de ser reservado por outra pessoa.'
-      : 'Erro ao confirmar. Tente novamente.'
+    if (errorEl) {
+      errorEl.textContent = error.code === '23505'
+        ? 'Ops! Esse presente acabou de ser reservado por outra pessoa.'
+        : 'Erro ao confirmar. Tente novamente.'
+      errorEl.classList.remove('hidden')
+    }
     if (error.code !== '23505') console.error(error)
-    errorEl.classList.remove('hidden')
     return
   }
 
-  document.getElementById('reservation-form').classList.add('hidden')
-  document.getElementById('success-message').textContent = CONFIG.confirmacao
-  document.getElementById('reservation-success').classList.remove('hidden')
+  getEl('reservation-form')?.classList.add('hidden')
+  setText('success-message', CONFIG.confirmacao)
+  getEl('reservation-success')?.classList.remove('hidden')
+  markGiftAsReserved(selectedGiftId)
   setTimeout(closeModal, 4500)
 }
 
 // ── Event listeners ────────────────────────────────
-
 function setupEventListeners() {
-  // Reserve buttons (event delegation on grid)
-  document.getElementById('presentes-grid').addEventListener('click', e => {
+  getEl('presentes-grid')?.addEventListener('click', e => {
     const btn = e.target.closest('.btn-reserve')
     if (!btn) return
+
     const gift = CONFIG.presentes.find(g => g.id === btn.dataset.id)
     if (gift) openModal(gift, btn)
   })
 
-  // Modal close
-  document.getElementById('modal-close').addEventListener('click', closeModal)
-  document.getElementById('modal-overlay').addEventListener('click', e => {
+  getEl('modal-close')?.addEventListener('click', closeModal)
+
+  getEl('modal-overlay')?.addEventListener('click', e => {
     if (e.target.id === 'modal-overlay') closeModal()
   })
 
-  // Escape key closes modal
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && selectedGiftId !== null) closeModal()
   })
 
-  // Color circles
-  document.getElementById('color-options').addEventListener('click', e => {
+  getEl('color-options')?.addEventListener('click', e => {
     const circle = e.target.closest('.color-circle')
     if (!circle) return
+
     document.querySelectorAll('.color-circle').forEach(c => {
       c.classList.remove('selected')
       c.setAttribute('aria-pressed', 'false')
     })
+
     circle.classList.add('selected')
     circle.setAttribute('aria-pressed', 'true')
-    document.getElementById('field-color').value = circle.dataset.color
+    getEl('field-color').value = circle.dataset.color
   })
 
-  // WhatsApp mask
-  document.getElementById('field-whatsapp').addEventListener('input', e => {
+  getEl('field-whatsapp')?.addEventListener('input', e => {
     e.target.value = maskWhatsApp(e.target.value)
   })
 
-  // Form submit
-  document.getElementById('reservation-form').addEventListener('submit', e => {
+  getEl('reservation-form')?.addEventListener('submit', e => {
     e.preventDefault()
     submitReservation()
   })
 
-  // Pix copy
-  document.getElementById('btn-copy-pix').addEventListener('click', copyPixKey)
+  getEl('btn-copy-pix')?.addEventListener('click', copyPixKey)
 }
 
 // ── Init ───────────────────────────────────────────
-
 async function init() {
   renderHero()
   renderHistoria()
-  renderTrocadilho()
   renderProgramacao()
   renderPresentes()
   renderPix()
