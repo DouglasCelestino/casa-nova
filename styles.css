@@ -541,7 +541,7 @@ footer {
 .programacao-card {
   padding: 0;
   overflow: hidden;
-  text-align: left;
+  text-align: center;
 }
 
 .prog-img,
