@@ -77,7 +77,7 @@ const CONFIG = {
     },
     {
       id: "p6",
-      nome: "Formas",
+      nome: "Kit de Formas",
       descricao: "Kit de formas para assar e preparar receitas",
       preco: 150.00,
       imagem: "assets/presentes/formas.jpg",
