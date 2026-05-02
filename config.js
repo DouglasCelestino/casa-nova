@@ -256,6 +256,48 @@ const CONFIG = {
       descricao: "Varal de chão para secar roupas",
       preco: 70.00,
       imagem: "assets/presentes/varal-chao.jpg",
+    },
+    {
+      id: "p32",
+      nome: "Jogo de lençol casal",
+      descricao: "Jogo de lençol para cama de casal",
+      preco: 120.00,
+      imagem: "assets/presentes/jogo-lencol.jpg",
+    },
+    {
+      id: "p33",
+      nome: "Cobertor casal",
+      descricao: "Cobertor para cama de casal",
+      preco: 150.00,
+      imagem: "assets/presentes/cobertor.jpg",
+    },  
+    {
+      id: "p34",
+      nome: "Kit de toalhas de banho",
+      descricao: "Conjunto de toalhas de banho para o casal",
+      preco: 100.00,
+      imagem: "assets/presentes/toalhas-banho.jpg",
+    },
+    {
+      id: "p35",
+      nome: "Cortina Blackout",
+      descricao: "Cortina para bloquear a luz do sol",
+      preco: 80.00,
+      imagem: "assets/presentes/cortina-blackout.jpg",
+    },
+    {
+      id: "p36",
+      nome: "Baude de roupa",
+      descricao: "Baú para guardar roupas e objetos",
+      preco: 50.00,
+      imagem: "assets/presentes/baude-roupa.jpg",
+    },
+    {
+      id: "p37",
+      nome: "Kit completo de limpeza",
+      descricao: "Kit com produtos e acessórios para limpeza da casa",
+      preco: 120.00,
+      imagem: "assets/presentes/kit-limpeza.jpg",
     }
   ],
 }
