@@ -44,7 +44,7 @@ const CONFIG = {
       id: "p1",
       nome: "Talheres",
       descricao: "Conjunto de talheres para o dia a dia",
-      preco: 79.90,
+      preco: 63.25,
       imagem: "assets/presentes/talheres.jpg",
     },
     {
@@ -212,7 +212,7 @@ const CONFIG = {
       id: "p25",
       nome: "Ferro de passar roupa",
       descricao: "Ferro para passar roupas",
-      preco: 89.00,
+      preco: 70.00,
       imagem: "assets/presentes/ferro-passar.jpg",
     },
     {
@@ -254,7 +254,7 @@ const CONFIG = {
       id: "p31",
       nome: "Varal de chão",
       descricao: "Varal de chão para secar roupas",
-      preco: 70.00,
+      preco: 60.00,
       imagem: "assets/presentes/varal-chao.jpg",
     },
     {
@@ -287,7 +287,7 @@ const CONFIG = {
     },
     {
       id: "p36",
-      nome: "Baude de roupa",
+      nome: "Cesto de roupa",
       descricao: "Baú para guardar roupas e objetos",
       preco: 50.00,
       imagem: "assets/presentes/baude-roupa.jpg",
@@ -298,6 +298,20 @@ const CONFIG = {
       descricao: "Kit com produtos e acessórios para limpeza da casa",
       preco: 120.00,
       imagem: "assets/presentes/kit-limpeza.jpg",
+    },
+      {
+      id: "p38",
+      nome: "Kit 2 Moedor de Pimenta e Sal em Madeira",
+      descricao: "Kit com dois moedores de pimenta e sal em madeira",
+      preco: 40.00,
+      imagem: "assets/presentes/moedores.jpg",
+    },
+    {
+        id: "p39",
+        nome: "Lixeira de inox",
+        descricao: "Lixeira de inox para uso doméstico",
+        preco: 50.00,
+        imagem: "assets/presentes/lixeira-inox.jpg",
     }
   ],
 }
